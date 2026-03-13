@@ -12,20 +12,6 @@ class ProgressScreen extends StatelessWidget {
     final stats = app.stats;
     final theme = Theme.of(context);
 
-    if (app.loading && stats == null) {
-      return Scaffold(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        body: Center(child: CircularProgressIndicator(color: theme.colorScheme.primary)),
-      );
-    }
-
-    if (stats == null) {
-      return Scaffold(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        body: Center(child: Text('Keine Statistik vorhanden', style: TextStyle(color: theme.colorScheme.onSurface))),
-      );
-    }
-
     final todayMinutes = stats.dayTotals.isNotEmpty ? stats.dayTotals.last.minutes : 0;
     final totalHours = stats.totalMinutes / 60.0;
     final weekMinutes = _calculateWeekMinutes(stats.dayTotals);

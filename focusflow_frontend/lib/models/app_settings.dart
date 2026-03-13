@@ -31,7 +31,7 @@ class AppSettings {
 
   static const defaults = AppSettings(
     theme: 'light',
-    focusMinutes: 25,
+    focusMinutes: 1,
     shortBreakMinutes: 5,
     longBreakMinutes: 25,
     soundEnabled: true,

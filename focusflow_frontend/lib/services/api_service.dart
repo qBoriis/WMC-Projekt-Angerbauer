@@ -4,11 +4,11 @@ import '../models/focus_session.dart';
 import '../models/stats_summary.dart';
 
 class ApiService {
-  // Für Windows lokal:
-  //static const String baseUrl = 'http://localhost:3000';
+  // Für Windows lokal / Web:
+  static const String baseUrl = 'http://localhost:3000';
 
   // Für Android Emulator stattdessen:
-  static const String baseUrl = 'http://10.0.2.2:3000';
+  //static const String baseUrl = 'http://10.0.2.2:3000';
 
   Future<bool> health() async {
     final response = await http.get(Uri.parse('$baseUrl/health'));

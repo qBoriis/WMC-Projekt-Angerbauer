@@ -12,10 +12,12 @@ class AppProvider extends ChangeNotifier {
 
   AppSettings settings = AppSettings.defaults;
   List<FocusSession> sessions = [];
-  StatsSummary? stats;
+  StatsSummary stats = StatsSummary(totalMinutes: 0, dayTotals: [], currentStreak: 0, bestStreak: 0);
   bool loading = false;
 
   int currentTab = 0;
+
+  bool timerRunning = false;
 
   Future<void> init() async {
     await _loadLocalSettings();
@@ -119,11 +121,21 @@ class AppProvider extends ChangeNotifier {
 
     try {
       sessions = await api.getSessions(limit: 100);
-      stats = await _loadCurrentMonthSummary();
+      final newStats = await _loadCurrentMonthSummary();
+      stats = newStats;
+    } catch (e) {
+      // behalte bestehende stats - kein fallback zu leeren
     } finally {
       loading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> refreshStatsOnly() async {
+    try {
+      stats = await _loadCurrentMonthSummary();
+      notifyListeners();
+    } catch (_) {}
   }
 
   Future<StatsSummary> _loadCurrentMonthSummary() async {
@@ -143,13 +155,22 @@ class AppProvider extends ChangeNotifier {
     required int durationMin,
     String? note,
   }) async {
-    await api.createSession(
-      startedAt: startedAt,
-      endedAt: endedAt,
-      durationMin: durationMin,
-      note: note,
-    );
-    await refreshAll();
+    for (int attempt = 0; attempt < 3; attempt++) {
+      try {
+        await api.createSession(
+          startedAt: startedAt,
+          endedAt: endedAt,
+          durationMin: durationMin,
+          note: note,
+        );
+        await refreshAll();
+        return;
+      } catch (e) {
+        if (attempt < 2) {
+          await Future.delayed(Duration(milliseconds: 500 * (attempt + 1)));
+        }
+      }
+    }
   }
 
   Future<void> removeSession(int id) async {

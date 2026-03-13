@@ -6,6 +6,7 @@ class TimerDisplay extends StatefulWidget {
   final int shortBreakMinutes;
   final int longBreakMinutes;
   final Future<void> Function(int duration, String mode) onComplete;
+  final void Function(bool running)? onTimerStateChanged;
 
   const TimerDisplay({
     super.key,
@@ -13,6 +14,7 @@ class TimerDisplay extends StatefulWidget {
     required this.shortBreakMinutes,
     required this.longBreakMinutes,
     required this.onComplete,
+    this.onTimerStateChanged,
   });
 
   @override
@@ -71,16 +73,19 @@ class _TimerDisplayState extends State<TimerDisplay> {
     if (isRunning) {
       _timer?.cancel();
       _timer = null;
+      widget.onTimerStateChanged?.call(false);
       setState(() {});
       return;
     }
 
     startedAtUtc ??= DateTime.now().toUtc();
+    widget.onTimerStateChanged?.call(true);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (_) async {
       if (remainingSeconds <= 1) {
         _timer?.cancel();
         _timer = null;
+        widget.onTimerStateChanged?.call(false);
 
         final durationMin = _getMinutesForMode();
 
@@ -88,20 +93,15 @@ class _TimerDisplayState extends State<TimerDisplay> {
           remainingSeconds = 0;
         });
 
-        await widget.onComplete(
-          durationMin,
-          mode == 'focus' ? 'focus' : 'break',
-        );
+        _resetForMode();
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                mode == 'focus' ? 'Fokus-Session fertig' : 'Pause fertig',
-              ),
-            ),
+        try {
+          await widget.onComplete(
+            durationMin,
+            mode == 'focus' ? 'focus' : 'break',
           );
-        }
+        } catch (_) {}
+
         return;
       }
 
@@ -117,6 +117,7 @@ class _TimerDisplayState extends State<TimerDisplay> {
     _timer?.cancel();
     _timer = null;
     startedAtUtc = null;
+    widget.onTimerStateChanged?.call(false);
     _resetForMode();
   }
 
@@ -153,9 +154,9 @@ class _TimerDisplayState extends State<TimerDisplay> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildModeChip('focus', 'Focus'),
-          _buildModeChip('shortBreak', 'Short Break'),
-          _buildModeChip('longBreak', 'Long Break'),
+          _buildModeChip('focus', 'Fokus'),
+          _buildModeChip('shortBreak', 'Kurze Pause'),
+          _buildModeChip('longBreak', 'Lange Pause'),
         ],
       ),
     );
@@ -241,7 +242,7 @@ class _TimerDisplayState extends State<TimerDisplay> {
               ),
               const SizedBox(height: 14),
               Text(
-                isRunning ? 'RUNNING' : 'PAUSED',
+                isRunning ? 'LÄUFT' : 'PAUSIERT',
                 style: TextStyle(
                   fontSize: 18,
                   letterSpacing: 2.3,

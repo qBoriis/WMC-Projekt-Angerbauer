@@ -57,7 +57,18 @@ class AppShell extends StatelessWidget {
               activeIcon: Icons.bar_chart,
               label: 'Statistik',
               selected: app.currentTab == 1,
-              onTap: () => context.read<AppProvider>().setTab(1),
+              onTap: () {
+                if (app.timerRunning) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Bitte konzentriere dich! ${app.settings.focusMinutes} Minuten Fokus.'),
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
+                  );
+                  return;
+                }
+                context.read<AppProvider>().setTab(1);
+              },
             ),
             _navItem(
               context,
@@ -65,15 +76,37 @@ class AppShell extends StatelessWidget {
               activeIcon: Icons.list_alt,
               label: 'Sessions',
               selected: app.currentTab == 2,
-              onTap: () => context.read<AppProvider>().setTab(2),
+              onTap: () {
+                if (app.timerRunning) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Bitte konzentriere dich! ${app.settings.focusMinutes} Minuten Fokus.'),
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
+                  );
+                  return;
+                }
+                context.read<AppProvider>().setTab(2);
+              },
             ),
             _navItem(
               context,
               icon: Icons.settings_outlined,
               activeIcon: Icons.settings,
-              label: 'Settings',
+              label: 'Einstellungen',
               selected: app.currentTab == 3,
-              onTap: () => context.read<AppProvider>().setTab(3),
+              onTap: () {
+                if (app.timerRunning) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Bitte konzentriere dich! ${app.settings.focusMinutes} Minuten Fokus.'),
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
+                  );
+                  return;
+                }
+                context.read<AppProvider>().setTab(3);
+              },
             ),
           ],
         ),

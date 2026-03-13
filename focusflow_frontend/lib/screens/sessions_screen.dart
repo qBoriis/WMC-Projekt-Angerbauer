@@ -113,7 +113,7 @@ class SessionsScreen extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          'Focus Session',
+                          'Fokus Sitzung',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 17,

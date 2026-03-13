@@ -18,8 +18,8 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(22, 22, 22, 26),
           children: [
             const SizedBox(height: 4),
-            Text(
-              'Settings',
+              Text(
+              'Einstellungen',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w800,
@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Customize your focus experience.',
+              'Passe dein Focus-Erlebnis an.',
               style: TextStyle(
                 fontSize: 15,
                 color: theme.colorScheme.onSurface.withOpacity(0.6),
@@ -43,7 +43,7 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Appearance',
+                    'Erscheinungsbild',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -52,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Select the theme that fits your vibe.',
+                    'Wähle das Theme, das zu dir passt.',
                     style: TextStyle(
                       fontSize: 14,
                       color: theme.colorScheme.onSurface.withOpacity(0.6),
@@ -113,7 +113,7 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Timer Durations',
+                    'Timer Dauer',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -122,7 +122,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Adjust the length of your sessions (minutes).',
+                    'Passe die Länge deiner Sitzungen an (Minuten).',
                     style: TextStyle(
                       fontSize: 14,
                       color: theme.colorScheme.onSurface.withOpacity(0.6),
@@ -133,12 +133,12 @@ class SettingsScreen extends StatelessWidget {
 
                   _sliderBlock(
                     context: context,
-                    title: 'Focus Duration',
+                    title: 'Fokus Dauer',
                     value: settings.focusMinutes.toDouble(),
                     label: '${settings.focusMinutes} min',
-                    min: 5,
+                    min: 1,
                     max: 90,
-                    divisions: 17,
+                    divisions: 89,
                     onChanged: (v) => app.setFocusMinutes(v.round()),
                   ),
 
@@ -146,7 +146,7 @@ class SettingsScreen extends StatelessWidget {
 
                   _sliderBlock(
                     context: context,
-                    title: 'Short Break',
+                    title: 'Kurze Pause',
                     value: settings.shortBreakMinutes.toDouble(),
                     label: '${settings.shortBreakMinutes} min',
                     min: 1,
@@ -159,7 +159,7 @@ class SettingsScreen extends StatelessWidget {
 
                   _sliderBlock(
                     context: context,
-                    title: 'Long Break',
+                    title: 'Lange Pause',
                     value: settings.longBreakMinutes.toDouble(),
                     label: '${settings.longBreakMinutes} min',
                     min: 5,
@@ -178,7 +178,7 @@ class SettingsScreen extends StatelessWidget {
               child: SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(
-                  'Sound Effects',
+                  'Ton',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
@@ -188,7 +188,7 @@ class SettingsScreen extends StatelessWidget {
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
-                    'Play a sound when the timer finishes.',
+                    'Ton abspielen wenn der Timer endet.',
                     style: TextStyle(
                       fontSize: 14,
                       color: theme.colorScheme.onSurface.withOpacity(0.6),
