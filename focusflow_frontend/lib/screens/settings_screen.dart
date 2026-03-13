@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(22, 22, 22, 26),
           children: [
             const SizedBox(height: 4),
-              Text(
+            Text(
               'Einstellungen',
               style: TextStyle(
                 fontSize: 32,

@@ -126,9 +126,9 @@ class AppShell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 74,
-        child: Column(
+        child: SizedBox(
+          width: 85,
+          child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
