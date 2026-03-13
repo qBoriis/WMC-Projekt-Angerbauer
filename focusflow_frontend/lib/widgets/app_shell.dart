@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
+import '../screens/goal_screen.dart';
 import '../screens/progress_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/sessions_screen.dart';
@@ -16,6 +17,7 @@ class AppShell extends StatelessWidget {
 
     final pages = const [
       TimerScreen(),
+      GoalScreen(),
       ProgressScreen(),
       SessionsScreen(),
       SettingsScreen(),
@@ -53,9 +55,9 @@ class AppShell extends StatelessWidget {
             ),
             _navItem(
               context,
-              icon: Icons.bar_chart_outlined,
-              activeIcon: Icons.bar_chart,
-              label: 'Statistik',
+              icon: Icons.flag_outlined,
+              activeIcon: Icons.flag,
+              label: 'Ziel',
               selected: app.currentTab == 1,
               onTap: () {
                 if (app.timerRunning) {
@@ -72,9 +74,9 @@ class AppShell extends StatelessWidget {
             ),
             _navItem(
               context,
-              icon: Icons.list_alt_outlined,
-              activeIcon: Icons.list_alt,
-              label: 'Sessions',
+              icon: Icons.bar_chart_outlined,
+              activeIcon: Icons.bar_chart,
+              label: 'Statistik',
               selected: app.currentTab == 2,
               onTap: () {
                 if (app.timerRunning) {
@@ -91,9 +93,9 @@ class AppShell extends StatelessWidget {
             ),
             _navItem(
               context,
-              icon: Icons.settings_outlined,
-              activeIcon: Icons.settings,
-              label: 'Einstellungen',
+              icon: Icons.list_alt_outlined,
+              activeIcon: Icons.list_alt,
+              label: 'Sessions',
               selected: app.currentTab == 3,
               onTap: () {
                 if (app.timerRunning) {
@@ -106,6 +108,25 @@ class AppShell extends StatelessWidget {
                   return;
                 }
                 context.read<AppProvider>().setTab(3);
+              },
+            ),
+            _navItem(
+              context,
+              icon: Icons.settings_outlined,
+              activeIcon: Icons.settings,
+              label: 'Einst.',
+              selected: app.currentTab == 4,
+              onTap: () {
+                if (app.timerRunning) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Bitte konzentriere dich! ${app.settings.focusMinutes} Minuten Fokus.'),
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
+                  );
+                  return;
+                }
+                context.read<AppProvider>().setTab(4);
               },
             ),
           ],
@@ -127,7 +148,7 @@ class AppShell extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
         child: SizedBox(
-          width: 85,
+          width: 68,
           child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -171,35 +171,6 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
-
-            _sectionCard(
-              context: context,
-              child: SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  'Ton',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    'Ton abspielen wenn der Timer endet.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: theme.colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                  ),
-                ),
-                value: settings.soundEnabled,
-                activeColor: theme.colorScheme.primary,
-                onChanged: app.toggleSound,
-              ),
-            ),
           ],
         ),
       ),

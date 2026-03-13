@@ -38,7 +38,7 @@ class AppProvider extends ChangeNotifier {
       focusMinutes: prefs.getInt('focusMinutes') ?? settings.focusMinutes,
       shortBreakMinutes: prefs.getInt('shortBreakMinutes') ?? settings.shortBreakMinutes,
       longBreakMinutes: prefs.getInt('longBreakMinutes') ?? settings.longBreakMinutes,
-      soundEnabled: prefs.getBool('soundEnabled') ?? settings.soundEnabled,
+      dailyGoalMinutes: prefs.getInt('dailyGoalMinutes') ?? settings.dailyGoalMinutes,
     );
 
     notifyListeners();
@@ -50,7 +50,7 @@ class AppProvider extends ChangeNotifier {
     await prefs.setInt('focusMinutes', settings.focusMinutes);
     await prefs.setInt('shortBreakMinutes', settings.shortBreakMinutes);
     await prefs.setInt('longBreakMinutes', settings.longBreakMinutes);
-    await prefs.setBool('soundEnabled', settings.soundEnabled);
+    await prefs.setInt('dailyGoalMinutes', settings.dailyGoalMinutes);
   }
 
   Future<void> syncSettingsFromBackend() async {
@@ -62,7 +62,7 @@ class AppProvider extends ChangeNotifier {
         focusMinutes: int.tryParse(remote['focusMin'] ?? '') ?? settings.focusMinutes,
         shortBreakMinutes: int.tryParse(remote['shortBreakMin'] ?? '') ?? settings.shortBreakMinutes,
         longBreakMinutes: int.tryParse(remote['longBreakMin'] ?? '') ?? settings.longBreakMinutes,
-        soundEnabled: (remote['soundEnabled'] ?? 'true') == 'true',
+        dailyGoalMinutes: int.tryParse(remote['dailyGoalMin'] ?? '') ?? settings.dailyGoalMinutes,
       );
 
       await _saveLocalSettings();
@@ -106,12 +106,12 @@ class AppProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  Future<void> toggleSound(bool value) async {
-    settings = settings.copyWith(soundEnabled: value);
+  Future<void> setDailyGoalMinutes(int value) async {
+    settings = settings.copyWith(dailyGoalMinutes: value);
     await _saveLocalSettings();
     notifyListeners();
     try {
-      await api.putSetting('soundEnabled', value.toString());
+      await api.putSetting('dailyGoalMin', value.toString());
     } catch (_) {}
   }
 

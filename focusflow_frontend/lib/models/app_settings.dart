@@ -3,14 +3,14 @@ class AppSettings {
   final int focusMinutes;
   final int shortBreakMinutes;
   final int longBreakMinutes;
-  final bool soundEnabled;
+  final int dailyGoalMinutes;
 
   const AppSettings({
     required this.theme,
     required this.focusMinutes,
     required this.shortBreakMinutes,
     required this.longBreakMinutes,
-    required this.soundEnabled,
+    required this.dailyGoalMinutes,
   });
 
   AppSettings copyWith({
@@ -18,14 +18,14 @@ class AppSettings {
     int? focusMinutes,
     int? shortBreakMinutes,
     int? longBreakMinutes,
-    bool? soundEnabled,
+    int? dailyGoalMinutes,
   }) {
     return AppSettings(
       theme: theme ?? this.theme,
       focusMinutes: focusMinutes ?? this.focusMinutes,
       shortBreakMinutes: shortBreakMinutes ?? this.shortBreakMinutes,
       longBreakMinutes: longBreakMinutes ?? this.longBreakMinutes,
-      soundEnabled: soundEnabled ?? this.soundEnabled,
+      dailyGoalMinutes: dailyGoalMinutes ?? this.dailyGoalMinutes,
     );
   }
 
@@ -34,6 +34,6 @@ class AppSettings {
     focusMinutes: 1,
     shortBreakMinutes: 5,
     longBreakMinutes: 25,
-    soundEnabled: true,
+    dailyGoalMinutes: 120,
   );
 }
